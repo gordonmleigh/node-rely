@@ -76,7 +76,35 @@ exports['rely'] = {
         test.done();
     },
     
-    '.autoRequire() injects dependencies for functions marked .$rely': function (test) {
+    '.autoRequire() calls injectModule() for module functions with $rely property': function (test) {
+        var rely = _rely();
+        var require_called = false;
+        var inject_called = false;
+        
+        var dep = function () {};
+        dep.$rely = true;
+        
+        rely.require = function (name) {
+            require_called = true;
+            test.equal(name, 'dep', 'require() should have been called with "dep"');
+            return dep;
+        };
+        
+        rely.injectModule = function (module) {
+            inject_called = true;
+            test.strictEqual(module, dep, 'injectModule() should have been called with dep');
+            return module;
+        };
+        
+        var result = rely('dep');
+        
+        test.strictEqual(require_called, true, 'require() should have been called');
+        test.strictEqual(inject_called, true, 'injectModule() should have been called');
+        test.strictEqual(result, dep, 'rely() should return the dependency');
+        test.done();
+    },
+    
+    '.injectModule() injects dependencies for functions with no .$rely array': function (test) {
         var rely = _rely();
         var require_called = {};
         var dep_called = false;
@@ -93,23 +121,20 @@ exports['rely'] = {
             'two': {}
         };
         
-        deps.dep.$rely = true;
-        
         rely.require = function (name) {
             require_called[name] = true;
             return deps[name];
         };
         
-        var result = rely('dep');
+        var result = rely.injectModule(deps.dep);
         test.ok(dep_called, 'the dependency function should have been called');
         test.strictEqual(result, ret, 'the result should equal the return of the dependency function');
-        test.ok(require_called.dep === true, 'require() should have been called with "dep"');
         test.ok(require_called.one === true, 'require() should have been called with "one"');
         test.ok(require_called.two === true, 'require() should have been called with "two"');
         test.done();
     },
     
-    '.autoRequire() injects dependencies for functions with a .$rely array': function (test) {
+    '.injectModule() injects dependencies for functions with a .$rely array': function (test) {
         var rely = _rely();
         var require_called = {};
         var dep_called = false;
@@ -133,12 +158,34 @@ exports['rely'] = {
             return deps[name];
         };
         
-        var result = rely('dep');
+        var result = rely.injectModule(deps.dep);
         test.ok(dep_called, 'the dependency function should have been called');
         test.strictEqual(result, ret, 'the result should equal the return of the dependency function');
-        test.ok(require_called.dep === true, 'require() should have been called with "dep"');
         test.ok(require_called.one === true, 'require() should have been called with "one"');
         test.ok(require_called.two === true, 'require() should have been called with "two"');
+        test.done();
+    },
+    
+    
+    '.autoRequire() does not call functions without a $rely property': function (test) {
+        var rely = _rely();
+        var require_called = {};
+        var dep_called = false;
+        
+        var deps = {
+            'dep': function () { 
+                dep_called = true;
+                return {};
+            }
+        };
+        
+        rely.require = function (name) {
+            require_called[name] = true;
+            return deps[name];
+        };
+        
+        rely('dep');
+        test.strictEqual(dep_called, false, 'the dependency function should not have been called');
         test.done();
     },
     
