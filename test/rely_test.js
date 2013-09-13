@@ -142,6 +142,29 @@ exports['rely'] = {
         test.done();
     },
     
+    
+    '.autoRequire() does not call functions without a $rely property': function (test) {
+        var rely = _rely();
+        var require_called = {};
+        var dep_called = false;
+        
+        var deps = {
+            'dep': function () { 
+                dep_called = true;
+                return {};
+            }
+        };
+        
+        rely.require = function (name) {
+            require_called[name] = true;
+            return deps[name];
+        };
+        
+        rely('dep');
+        test.strictEqual(dep_called, false, 'the dependency function should not have been called');
+        test.done();
+    },
+    
     '.autoLoad() adds dependencies for all matching scripts': function (test) {
         var rely = _rely();
         var files = ['/foo/bar/one.js', '/foo/bar/two.js'];
