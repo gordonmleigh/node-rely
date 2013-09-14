@@ -1,0 +1,20 @@
+#!/bin/bash
+
+function run() {
+    if ! [ -f "test/$1_test.js" ]; then
+        echo test/$1_test.js not found
+        exit 1
+    fi
+    local NODEINSPECTOR_BIN=`which node-inspector`
+
+    if !(ps aux | grep -v grep | grep "`which node-inspector`"); then
+        echo "Starting node-inspector"
+        node-inspector &
+    fi
+
+    local NODEUNIT_BIN=`which nodeunit`
+    node --debug-brk $NODEUNIT_BIN test/$1_test.js
+}
+
+run "$@"
+
