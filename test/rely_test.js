@@ -48,6 +48,13 @@ exports['rely'] = {
     test.done();
   },
 
+  'calls require() for local modules when dependency not found': function (test) {
+    var rely = _rely();
+    var b = rely('./test/fixtures/testlib.js');
+    test.equal(b.name, 'testlib', 'rely should call require() if dependency is not found');
+    test.done();
+  },
+
   'throws error if dependency not found by require()': function (test) {
     var rely = _rely();
 
