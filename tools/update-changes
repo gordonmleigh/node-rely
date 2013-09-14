@@ -5,6 +5,10 @@ if [ -z "$1" ] || [ -z "$2" ]; then
   exit 1
 fi
 
-cat <(echo "$2:") <(date +"  date: %Y-%m-%d") <(git log $1..HEAD --pretty=%s | grep -E "^feat|^fix" | sed 's/^/  * /g') <(echo) CHANGELOG > CHANGELOG.TMP
+echo
+cat <(echo "$2:") <(date +"  date: %Y-%m-%d") <(git log $1..HEAD --pretty=%s | grep -E "^feat|^fix" | sed 's/^/  * /g') | tee CHANGELOG.current
+
+cat CHANGELOG.current <(echo) CHANGELOG > CHANGELOG.TMP
 mv CHANGELOG.TMP CHANGELOG
+rm CHANGELOG.current
 
