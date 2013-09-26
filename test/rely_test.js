@@ -119,6 +119,36 @@ exports['rely'] = {
     test.done();
   },
 
+  '.rely() calls autoRequire for dependency implementations expressed as string': function (test) {
+    var rely = _rely();
+    var require_called = false;
+    var inject_called = false;
+
+    var dep = function () {};
+    dep.$rely = true;
+
+    rely.require = function (name) {
+      require_called = true;
+      test.equal(name, '/path/to/dep', 'require() should have been called with "/path/to/dep"');
+      return dep;
+    };
+
+    rely.injectModule = function (module) {
+      inject_called = true;
+      test.strictEqual(module, dep, 'injectModule() should have been called with dep');
+      return module;
+    };
+
+    rely('dep', '/path/to/dep');
+    var result = rely('dep');
+
+    test.strictEqual(require_called, true, 'require() should have been called');
+    test.strictEqual(inject_called, true, 'injectModule() should have been called');
+    test.strictEqual(result, dep, 'rely() should return the dependency');
+    test.strictEqual(rely.dependencies['dep'], dep, 'the loaded implementation should be cached');
+    test.done();
+  },
+
   '.injectModule() injects dependencies for functions with no .$rely array': function (test) {
     var rely = _rely();
     var require_called = {};
