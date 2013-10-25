@@ -1,7 +1,7 @@
 {
   "name": "rely",
   "description": "Simple dependency injection and library loader.",
-  "version": "2.0.0-alpha",
+  "version": "2.0.1",
   "homepage": "https://github.com/gordonml/node-rely",
   "author": {
     "name": "Gordon Mackenzie-Leigh",
