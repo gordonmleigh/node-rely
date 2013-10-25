@@ -1,3 +1,16 @@
+<a name="v2.0.1"></a>
+### v2.0.1 (2013-10-25)
+
+
+#### Bug Fixes
+
+* fix several bugs ([10860bee](http://github.com/gordonml/node-rely/commit/10860bee6a9065d7cb5b75133f1da56f285bbdd7))
+
+
+#### Features
+
+* **require:** return self when called with 'rely' ([da590051](http://github.com/gordonml/node-rely/commit/da590051365ddd2855cfc07c9f25e3dc98b9a6d3))
+
 <a name="v2.0.0-alpha"></a>
 ### v2.0.0-alpha (2013-10-25)
 
