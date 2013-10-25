@@ -1,3 +1,11 @@
+<a name="v2.0.3"></a>
+### v2.0.3 (2013-10-25)
+
+
+#### Bug Fixes
+
+* **require:** require built-in modules ([5e5f1023](http://github.com/gordonml/node-rely/commit/5e5f1023476bfedf63266b38706b5c494d2d8dc6))
+
 <a name="v2.0.2"></a>
 ### v2.0.2 (2013-10-25)
 
