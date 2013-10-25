@@ -1,3 +1,11 @@
+<a name="v2.0.2"></a>
+### v2.0.2 (2013-10-25)
+
+
+#### Bug Fixes
+
+* **map:** fix map to implementation ([ac448ad3](http://github.com/gordonml/node-rely/commit/ac448ad3d0928741ce449e890d88015592037e5f))
+
 <a name="v2.0.1"></a>
 ### v2.0.1 (2013-10-25)
 
