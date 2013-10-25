@@ -11,7 +11,10 @@
 
 var chai = require('chai'),
     expect = chai.expect,
+    chaiAsPromised = require('chai-as-promised'),
     rely = require('../lib/rely.js')();
+
+chai.use(chaiAsPromised);
 
 describe('rely#_getCjsDependencies()', function () {
   it('returns a list of dependencies determined from require() statements', function () {
@@ -43,8 +46,7 @@ describe('rely#_createModuleFunction()', function () {
   });
 });
 
-
-describe('rely#loadfile()', function () {
+describe('rely#loadFile()', function () {
   describe('when called with a file containing a CommonJS module', function () {
     before(function (done) {
       rely.loadFile('./test/fixtures/cjslib.js', 'testlib', done);
@@ -65,6 +67,64 @@ describe('rely#loadfile()', function () {
       expect(rely.modules).to.have.keys('testlib');
       var m = rely.modules['testlib'].get();
       expect(m).to.have.keys(['foo', 'bar']);
+    });
+  });
+});
+
+describe('rely#require()', function () {
+  describe('when called synchronously', function () {
+    var def = {};
+    var mod = {
+      get: function (async) {
+        expect(async).to.not.equal(true);
+        return def;
+      }
+    };
+
+    before(function () {
+      rely.modules['testlib'] = mod;
+    });
+
+    it('returns the requested module', function () {
+      var m = rely.require('testlib');
+      expect(m).to.equal(def);
+    });
+  });
+
+  describe('when called asynchronously', function () {
+    var def = {};
+    var mod = {
+      get: function (async) {
+        expect(async).to.equal(true);
+        return def;
+      }
+    };
+
+    before(function () {
+      rely.modules['testlib'] = mod;
+    });
+
+    it('returns a promise which resolves to the requested module', function () {
+      var m = rely.require('testlib', true);
+      expect(m).to.equal(def);
+    });
+  });
+});
+
+describe('rely#run()', function () {
+  var one = {}, two = {};
+
+  before(function () {
+    rely.define('one', 'one', [], function () { return one; });
+    rely.define('two', 'two', [], function () { return two; });
+  });
+
+  it('calls the function with the given modules', function (done) {
+    debugger;
+    rely.run(['one','two'], function (o, t) {
+      expect(o).to.equal(one);
+      expect(t).to.equal(two);
+      done();
     });
   });
 });
