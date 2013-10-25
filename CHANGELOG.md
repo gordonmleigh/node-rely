@@ -1,3 +1,15 @@
+<a name="v2.0.0-alpha"></a>
+### v2.0.0-alpha (2013-10-25)
+
+#### Features
+* **rely:** add support for AMD module definitions ([146228bb](http://github.com/gordonml/node-rely/commit/146228bbaf26f08469cf512ac6da6fa9ad244b09))
+
+
+#### Breaking Changes
+
+*  Pretty much everything has changed...
+ ([146228bb](http://github.com/gordonml/node-rely/commit/146228bbaf26f08469cf512ac6da6fa9ad244b09))
+
 <a name="v1.1.2"></a>
 ### v1.1.2 (2013-09-26)
 
