@@ -109,6 +109,13 @@ describe('rely#require()', function () {
       expect(m).to.equal(def);
     });
   });
+
+  describe('when called with "rely"', function () {
+    it('returns self instance', function () {
+      var m = rely.require('rely');
+      expect(m).to.equal(rely);
+    });
+  });
 });
 
 describe('rely#run()', function () {
@@ -120,7 +127,6 @@ describe('rely#run()', function () {
   });
 
   it('calls the function with the given modules', function (done) {
-    debugger;
     rely.run(['one','two'], function (o, t) {
       expect(o).to.equal(one);
       expect(t).to.equal(two);
