@@ -116,6 +116,13 @@ describe('rely#require()', function () {
       expect(m).to.equal(rely);
     });
   });
+
+  describe('when called with "fs"', function () {
+    it('returns the built-in module', function () {
+      var m = rely.require('fs');
+      expect(m).to.equal(require('fs'));
+    });
+  });
 });
 
 describe('rely#run()', function () {
