@@ -4,12 +4,29 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    nodeunit: {
-      files: ['test/**/*_test.js'],
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec',
+          timeout: 500
+        },
+        src: ['test/*.js']
+      }
     },
     jshint: {
       options: {
-        jshintrc: '.jshintrc'
+        "curly": true,
+        "eqeqeq": true,
+        "immed": true,
+        "latedef": true,
+        "newcap": true,
+        "noarg": true,
+        "sub": true,
+        "undef": true,
+        "unused": true,
+        "boss": true,
+        "eqnull": true,
+        "node": true
       },
       gruntfile: {
         src: 'Gruntfile.js'
@@ -18,7 +35,7 @@ module.exports = function(grunt) {
         src: ['lib/**/*.js']
       },
       test: {
-        src: ['test/**/*.js']
+        src: ['test/*.js']
       },
     },
     watch: {
@@ -28,22 +45,22 @@ module.exports = function(grunt) {
       },
       lib: {
         files: '<%= jshint.lib.src %>',
-        tasks: ['jshint:lib', 'nodeunit']
+        tasks: ['jshint:lib', 'mochaTest']
       },
       test: {
         files: '<%= jshint.test.src %>',
-        tasks: ['jshint:test', 'nodeunit']
+        tasks: ['jshint:test', 'mochaTest']
       },
     },
   });
 
   // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('grunt-contrib-nodeunit');
+  grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-conventional-changelog');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'nodeunit']);
+  grunt.registerTask('default', ['jshint', 'mochaTest']);
 
 };
