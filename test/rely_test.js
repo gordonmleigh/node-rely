@@ -134,3 +134,22 @@ describe('rely#run()', function () {
     });
   });
 });
+
+
+describe('rely#map()', function () {
+  describe('when called with a string', function () {
+    it('stores the string in the module list', function () {
+      rely.map('foo', 'bar');
+      var m = rely.modules['foo'];
+      expect(m).to.equal('bar');
+    });
+  });
+  describe('when called with an object', function () {
+    it('creates a module with the definition set to the object', function () {
+      var def = {};
+      rely.map('foo', def);
+      var m = rely.modules['foo'].get();
+      expect(m).to.equal(def);
+    });
+  });
+});
