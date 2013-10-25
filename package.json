@@ -29,15 +29,16 @@
     "test": "grunt nodeunit"
   },
   "dependencies": {
-    "glob": "~3.2.6",
-    "minimatch": "~0.2.11"
+    "lodash": "~2.2.1",
+    "q": "~0.9.7"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.0",
-    "grunt-contrib-nodeunit": "~0.2.0",
     "grunt-contrib-watch": "~0.4.0",
     "grunt": "~0.4.1",
-    "grunt-conventional-changelog": "~1.0.0"
+    "grunt-conventional-changelog": "~1.0.0",
+    "grunt-mocha-test": "~0.7.0",
+    "chai": "~1.8.1"
   },
   "keywords": []
 }
